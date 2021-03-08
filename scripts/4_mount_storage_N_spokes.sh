@@ -84,8 +84,8 @@ mount_storage (){
 #
 num=1
 while [ $num -le ${NUMBEROFSPOKES} ]; do
-   pointer=$((num%NUMBEROFSPOKES))
-   sub=${SPOKESUBARRAY[$pointer]}
+   pointer=$(((num-1)%NUMBEROFSPOKES))
+   sub=${SPOKESUBARRAY[$pointer-1]}
    mount_storage $num $sub
    num=$(($num+1))
 done
