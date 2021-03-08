@@ -5,8 +5,8 @@ mount_storage (){
   tenantId=$(az account show --query tenantId -o tsv)
   wsId=$(az resource show \
     --resource-type Microsoft.Databricks/workspaces \
-    -g "${SPOKERG}" \
-    -n "${SPOKEDBRWORKSPACE}" \
+    -g "${SPOKERG}$1" \
+    -n "${SPOKEDBRWORKSPACE}$1" \
     --query id -o tsv)
   # 1b. Get two bearer tokens in Azure
   token_response=$(az account get-access-token --resource 2ff814a6-3304-4ab8-85cb-cd0e6f879c1d)
@@ -15,7 +15,7 @@ mount_storage (){
   azToken=$(jq .accessToken -r <<< "$token_response")
   #
   # Databricks
-  dbr_response=$(az databricks workspace show -g $SPOKERG -n $SPOKEDBRWORKSPACE)
+  dbr_response=$(az databricks workspace show -g ${SPOKERG}$1 -n ${SPOKEDBRWORKSPACE}$1)
   workspaceUrl_no_http=$(jq .workspaceUrl -r <<< "$dbr_response")
   workspace_id_url="https://"$workspaceUrl_no_http"/"
   #
@@ -33,11 +33,11 @@ mount_storage (){
     -H "X-Databricks-Azure-Workspace-Resource-Id:$wsId" \
     -d "{\"scope\": \"dbrkeys\"}")
   # 3.2. Move keys from key vault to Databricks backed secret scope
-  keyvault_response=$(az keyvault secret show -n spn-id --vault-name $SPOKEAKV)
+  keyvault_response=$(az keyvault secret show -n spn-id --vault-name ${SPOKEAKV}$1)
   spn_id=$(jq .value -r <<< "$keyvault_response")
-  keyvault_response=$(az keyvault secret show -n spn-key --vault-name $SPOKEAKV)
+  keyvault_response=$(az keyvault secret show -n spn-key --vault-name ${SPOKEAKV}$1)
   spn_key=$(jq .value -r <<< "$keyvault_response")
-  keyvault_response=$(az keyvault secret show -n tenant-id --vault-name $SPOKEAKV)
+  keyvault_response=$(az keyvault secret show -n tenant-id --vault-name ${SPOKEAKV}$1)
   tenant_id=$(jq .value -r <<< "$keyvault_response")
   api_response=$(curl -v -X POST ${workspace_id_url}api/2.0/secrets/put \
     -H "Authorization: Bearer $token" \
