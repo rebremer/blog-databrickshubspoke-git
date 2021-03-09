@@ -6,10 +6,10 @@ az account set --subscription $HUBSUB
 az group create -n $HUBRG -l $LOC
 # Storage account
 az storage account create -n $HUBSTOR -g $HUBRG -l $LOC --sku Standard_LRS --kind StorageV2 --enable-hierarchical-namespace true
-#az storage container create --account-name $STOR -n "defineddata"
-#az storage blob upload -f "../data/AdultCensusIncome.csv" -c "defineddata" -n "AdultCensusIncome.csv" --account-name $STOR 
+#az storage container create --account-name $HUBSTOR -n "defineddata"
+#az storage blob upload -f "../data/AdultCensusIncome.csv" -c "defineddata" -n "AdultCensusIncome.csv" --account-name $HUBSTOR 
 #
-az storage account update --resource-group $HUBRG --name $HUBSTOR --default-action Deny
+#az storage account update --resource-group $HUBRG --name $HUBSTOR --default-action Deny
 # Hub VNET
 vnetaddressrange="10.200.0.0"
 subnet1addressrange="10.200.0.0"

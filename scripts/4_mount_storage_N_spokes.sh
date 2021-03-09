@@ -1,6 +1,8 @@
 #!/bin/bash
 source params.sh
 mount_storage (){
+  # Subscription
+  az account set --subscription $2
   # 1a. Get tenantID and resource id
   tenantId=$(az account show --query tenantId -o tsv)
   wsId=$(az resource show \
@@ -8,6 +10,7 @@ mount_storage (){
     -g "${SPOKERG}$1" \
     -n "${SPOKEDBRWORKSPACE}$1" \
     --query id -o tsv)
+  
   # 1b. Get two bearer tokens in Azure
   token_response=$(az account get-access-token --resource 2ff814a6-3304-4ab8-85cb-cd0e6f879c1d)
   token=$(jq .accessToken -r <<< "$token_response")
@@ -69,7 +72,7 @@ mount_storage (){
     -H "Authorization: Bearer $token" \
     -H "X-Databricks-Azure-SP-Management-Token:$azToken" \
     -H "X-Databricks-Azure-Workspace-Resource-Id:$wsId" \
-    -d "{\"name\": \"mount storage\", \"existing_cluster_id\": \"$cluster_id\", \"notebook_task\": {\"notebook_path\": \"/mount_storage.py\", \"base_parameters\": [{\"key\":\"stor_name\", \"value\":\"${HUBSTOR}\"}, {\"key\":\"container_name\", \"value\":\"${FILESYSTEM}$1\"}, {\"key\":\"private_link_dns\", \"value\":\"${HUBDNS}\"}]}}")
+    -d "{\"name\": \"mount storage\", \"existing_cluster_id\": \"$cluster_id\", \"notebook_task\": {\"notebook_path\": \"/mount_storage.py\", \"base_parameters\": [{\"key\":\"stor_name\", \"value\":\"${HUBSTOR}\"}, {\"key\":\"container_name\", \"value\":\"${SPOKEFILESYSTEM}$1\"}, {\"key\":\"private_link_dns\", \"value\":\"${HUBDNS}\"}]}}")
   job_id=$(jq .job_id -r <<< "$api_response")
   #
   # 6. Run job to run notebook to mount storage
@@ -85,7 +88,7 @@ mount_storage (){
 num=1
 while [ $num -le ${NUMBEROFSPOKES} ]; do
    pointer=$(((num-1)%NUMBEROFSPOKES))
-   sub=${SPOKESUBARRAY[$pointer-1]}
+   sub=${SPOKESUBARRAY[$pointer]}
    mount_storage $num $sub
    num=$(($num+1))
 done

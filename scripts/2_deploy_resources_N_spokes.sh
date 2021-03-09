@@ -19,6 +19,8 @@ create_spoke () {
    az keyvault secret set -n spn-key --vault-name ${SPOKEAKV}$1 --value $spn_key
    # Add RBAC role to storage account
    az storage container create --account-name $HUBSTOR -n ${SPOKEFILESYSTEM}$1 --subscription ${HUBSUB}
+   az storage blob upload -f "../data/AdultCensusIncome.csv" -c ${SPOKEFILESYSTEM}$1 -n "AdultCensusIncome.csv" --account-name ${HUBSTOR} --subscription ${HUBSUB}
+   #
    spn_response=$(az ad sp show --id $spn_id)
    spn_object_id=$(jq .objectId -r <<< "$spn_response")
    scope="/subscriptions/$HUBSUB/resourceGroups/$HUBRG/providers/Microsoft.Storage/storageAccounts/$HUBSTOR/blobServices/default/containers/${SPOKEFILESYSTEM}$1"
@@ -49,3 +51,5 @@ while [ $num -le $NUMBEROFSPOKES ]; do
 	create_spoke $num $sub
 	num=$(($num+1))
 done
+# Finally, lock down storage account
+az storage account update --resource-group $HUBRG --name $HUBSTOR --default-action Deny --bypass None
