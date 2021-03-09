@@ -52,4 +52,4 @@ while [ $num -le $NUMBEROFSPOKES ]; do
 	num=$(($num+1))
 done
 # Finally, lock down storage account
-az storage account update --resource-group $HUBRG --name $HUBSTOR --default-action Deny --bypass None
+az storage account update --resource-group $HUBRG --name $HUBSTOR --default-action Deny --bypass None --subscription $HUBSUB
