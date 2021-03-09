@@ -1,4 +1,4 @@
-### Central ADLSgen2 account connecting to multiple decentral Databricks workspaces
+### Private link connectivity of 1 central ADLSgen2 account to multiple decentral Databricks workspaces
 Project that creates a Data lake storage account and connects multiple spoke Databricks workspaces using private link. Storage account and Databricks workspace can live in different subscriptions. The following steps are executed when executing ```scripts/0_run_script.sh```:
 
 - Create 1 ADLSgen2 account and 1 hub VNET. 
