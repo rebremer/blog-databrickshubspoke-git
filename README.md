@@ -1,9 +1,9 @@
 ### Central ADLSgen2 account connecting to multiple decentral Databricks workspaces
-Project that creates a Data lake storage account and connects multiple spoke Databricks workspaces. Storage account and Databricks workspace can live in different subscriptions. The following steps are executed when executing ```scripts/0_run_script.sh```:
+Project that creates a Data lake storage account and connects multiple spoke Databricks workspaces using private link. Storage account and Databricks workspace can live in different subscriptions. The following steps are executed when executing ```scripts/0_run_script.sh```:
 
 - Create 1 ADLSgen2 account and 1 hub VNET. 
 - Connect hub VNET and storage account using private link. A private DNS zone is creates as part of the process
-- Create N Databricks workspaces that are deployed in their own worker VNET (spokes)
+- Create N Databricks workspaces in their own worker VNET (spokes). SPN/RBAC/secret scopes are used to access storage account.
 - Peer the N Databricks worker VNETs with hub VNET
 - Create a private link connection bewteen Databricks worker and DNS private zone
 
