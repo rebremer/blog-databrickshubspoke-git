@@ -9,12 +9,12 @@
 import os
 par_stor_name = dbutils.widgets.get("stor_name")
 par_container_name = dbutils.widgets.get("container_name")
-par_private_link_dns = dbutils.widgets.get("private_link_dns")
+#par_private_link_dns = dbutils.widgets.get("private_link_dns")
 os.environ['container'] = par_container_name
 # COMMAND ----------
 
 import socket
-addr = socket.gethostbyname(par_stor_name + '.' + par_private_link_dns)
+addr = socket.gethostbyname(par_stor_name + '.dfs.core.windows.net')
 print(addr)
 
 # COMMAND ----------
@@ -30,7 +30,7 @@ configs = {"fs.azure.account.auth.type": "OAuth",
 
 # Optionally, you can add <directory-name> to the source URI of your mount point.
 dbutils.fs.mount(
-  source = "abfss://" + par_container_name +"@" + par_stor_name + "." + par_private_link_dns + "/",
+  source = "abfss://" + par_container_name +"@" + par_stor_name + ".dfs.core.windows.net/",
   mount_point = "/mnt/" + par_container_name,
   extra_configs = configs)
 
