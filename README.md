@@ -10,3 +10,7 @@ Project that creates a Data lake storage account and connects multiple spoke Dat
 See also overview below (credits to [Marc de Droog](https://www.linkedin.com/in/marc-de-droog-776a94/)):
 
 ![Architecture](https://github.com/rebremer/blog-databrickshubspoke-git/blob/main/images/StorhubDatabricksspoke.png)
+
+In case the scripts are successfully rune, Databricks spoke N will be mounted to File sytem N on the central storage account using the private IP address of the storage account, see also screenshot below.
+
+![End result](https://github.com/rebremer/blog-databrickshubspoke-git/blob/main/images/databricks_end_result.png)
