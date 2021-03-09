@@ -31,7 +31,7 @@ configs = {"fs.azure.account.auth.type": "OAuth",
 # Optionally, you can add <directory-name> to the source URI of your mount point.
 dbutils.fs.mount(
   source = "abfss://" + par_container_name +"@" + par_stor_name + "." + par_private_link_dns + "/",
-  mount_point = "/mnt/" + par_container_name",
+  mount_point = "/mnt/" + par_container_name,
   extra_configs = configs)
 
 # COMMAND ----------

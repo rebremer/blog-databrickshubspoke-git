@@ -7,6 +7,6 @@ Project that creates a Data lake storage account and connects multiple spoke Dat
 - Peer the N Databricks worker VNETs with hub VNET
 - Create a private link connection bewteen Databricks worker and DNS private zone
 
-See also overview below (credits to Marc de Droog):
+See also overview below (credits to [Marc de Droog](https://www.linkedin.com/in/marc-de-droog-776a94/)):
 
-![Architecture](https://github.com/rebremer/blog-databrickshubspoke-git/blob/master/images/StorhubDatabricksspoke.png)
+![Architecture](https://github.com/rebremer/blog-databrickshubspoke-git/blob/main/images/StorhubDatabricksspoke.png)
