@@ -28,7 +28,7 @@ create_spoke () {
    #
    # Databricks
    az extension add --name databricks
-   dbr_response=$(az databricks workspace show -g ${SPOKERG}$1 -n ${SPOKEDBRWORKSPACE}$1)
+   dbr_response=$(az databricks workspace show -g ${SPOKERG}$1 -n ${SPOKEDBRWORKSPACE}$1 --enable-no-public-ip true)
    if ["$dbr_response" = ""]; then
       vnetaddressrange="10.21"$1".0.0"
       subnet1addressrange="10.21"$1".0.0"
