@@ -28,7 +28,7 @@ create_spoke () {
    #
    # Databricks
    az extension add --name databricks
-   dbr_response=$(az databricks workspace show -g ${SPOKERG}$1 -n ${SPOKEDBRWORKSPACE}$1 --enable-no-public-ip true)
+   dbr_response=$(az databricks workspace show -g ${SPOKERG}$1 -n ${SPOKEDBRWORKSPACE}$1)
    if ["$dbr_response" = ""]; then
       vnetaddressrange="10.21"$1".0.0"
       subnet1addressrange="10.21"$1".0.0"
@@ -40,7 +40,7 @@ create_spoke () {
       az network vnet subnet create -g ${SPOKERG}$1 --vnet-name ${SPOKEVNET}$1 -n "private-subnet" --address-prefixes $subnet2addressrange/24 --network-security-group "private-subnet-nsg"
       az network vnet subnet update --resource-group ${SPOKERG}$1 --name "public-subnet" --vnet-name ${SPOKEVNET}$1 --delegations Microsoft.Databricks/workspaces
       az network vnet subnet update --resource-group ${SPOKERG}$1 --name "private-subnet" --vnet-name ${SPOKEVNET}$1 --delegations Microsoft.Databricks/workspaces
-      dbr_response=$(az databricks workspace create -l $LOC -n ${SPOKEDBRWORKSPACE}$1 -g ${SPOKERG}$1 --sku premium --vnet ${SPOKEVNET}$1 --public-subnet "public-subnet" --private-subnet "private-subnet")
+      dbr_response=$(az databricks workspace create -l $LOC -n ${SPOKEDBRWORKSPACE}$1 -g ${SPOKERG}$1 --sku premium --vnet ${SPOKEVNET}$1 --public-subnet "public-subnet" --private-subnet "private-subnet" --enable-no-public-ip true)
    fi
 }
 #
