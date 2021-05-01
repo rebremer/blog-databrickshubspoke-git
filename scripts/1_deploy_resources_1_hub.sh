@@ -5,7 +5,7 @@ az account set --subscription $HUBSUB
 # Resource group
 az group create -n $HUBRG -l $LOC
 # Storage account
-az storage account create -n $HUBSTOR -g $HUBRG -l $LOC --sku Standard_LRS --kind StorageV2 --enable-hierarchical-namespace true
+az storage account create -n $HUBSTOR -g $HUBRG -l $LOC --sku Standard_LRS --kind StorageV2 --enable-hierarchical-namespace true --allow-shared-key-access false
 #az storage container create --account-name $HUBSTOR -n "defineddata"
 #az storage blob upload -f "../data/AdultCensusIncome.csv" -c "defineddata" -n "AdultCensusIncome.csv" --account-name $HUBSTOR 
 #
